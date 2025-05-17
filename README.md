@@ -177,7 +177,7 @@ gerenciador-node remover v24.0.2
 
 Confirme a remoção
 
-![Tela confirmação remoção](/imagens/tela-confirmação-remocao.png)
+![Tela confirmação remoção](/imagens/tela-confirmação-remoção.png)
 
 
 Observe a mudança na pasta que armazena as versões
