@@ -91,7 +91,7 @@ gerenciador-node listar
 
 <b>Você receberá uma saída como abaixo</b>
 
-![Tela listagem](/imagens/tela-listagem.png)
+![Tela listagem](/imagens/tela-listagem-node.png)
 
 <b>Vamos definir uma versão como padrão</b>
 
