@@ -1,4 +1,4 @@
-<h1>Gerenciador node</h1>
+<h1>Gerenciador NODE</h1>
 
 Gerenciador de ambiente node simples usando apenas script shell e dependências mínimas.
 
