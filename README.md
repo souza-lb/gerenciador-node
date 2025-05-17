@@ -147,7 +147,7 @@ node --version
 
 Observe a saída conforme abaixo
 
-![Tela java nova](/imagens/tela-node-novo.png)
+![Tela node novo](/imagens/tela-node-novo.png)
 
 <b>Vamos abordar a opção de remoção de versões do node. Tente remover uma versão em uso conforme abaixo</b>
 
@@ -166,13 +166,13 @@ Observe a pasta que armazena as versões disponíveis
 Alterne para a versão 22 e tente novamente a remoção
 
 ```bash
-. gerenciador-jdk definir v22.15.1
+. gerenciador-node definir v22.15.1
 ```
 
 Agora remova com
 
 ```bash
-gerenciador-jdk remover v24.0.2
+gerenciador-node remover v24.0.2
 ```
 
 Confirme a remoção
