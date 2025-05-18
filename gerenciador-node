@@ -1,5 +1,4 @@
 #!/bin/bash
-set -euo pipefail
 
 # Autor: Leonardo Bruno
 # Versão: 2.0
@@ -47,7 +46,7 @@ gerenciar_bashrc() {
             ;;
         *)
             echo "Ação inválida para gerenciar_bashrc: $acao"
-            return 1
+            exit 1
             ;;
     esac
 
@@ -81,7 +80,7 @@ desativar_padrao() {
 
 # Instala uma versão de node através de arquivo local ou url
 instalar_node() {
-    [ -z "$1" ] && echo "Erro: URL/arquivo não fornecido!" && return 1
+    [ -z "$1" ] && echo "Erro: URL/arquivo não fornecido!" && exit 1
 
     local source="$1"
     local nome_arquivo=$(basename "$source")
@@ -92,15 +91,15 @@ instalar_node() {
         echo "Executando Download NodeJS via URL..."
         if ! wget -q --show-progress "$source" -O "$temp_file"; then
             echo "Falha no download!"
-            return 1
+            exit 1
         fi
     else
         if [ ! -f "$source" ]; then
             echo "Erro: Arquivo local '$source' não encontrado!"
-            return 1
+            exit 1
         fi
         echo "Usando arquivo local..."
-        cp "$source" "$temp_file" || return 1
+        cp "$source" "$temp_file" || exit 1
     fi
 
     # Extrai versão do formato: node-vX.Y.Z
@@ -112,7 +111,7 @@ instalar_node() {
         echo "Não foi possível detectar a versão automaticamente"
         echo "Exemplos válidos: v22.14.0, v20.12.1"
         read -p "Digite a versão manualmente (com 'v'): " versao
-        [ -z "$versao" ] && echo "Erro: Versão necessária!" && return 1
+        [ -z "$versao" ] && echo "Erro: Versão necessária!" && exit 1
     fi
 
     # Verifica instalação existente
@@ -127,7 +126,7 @@ instalar_node() {
     if ! tar -xJf "$temp_file" -C "$DIR_NODE/$versao" --strip-components=1; then
         echo "Erro ao extrair arquivo!"
         rm "$temp_file"
-        return 1
+        exit 1
     fi
     rm "$temp_file"
 
@@ -141,7 +140,7 @@ instalar_node() {
 
 # Define versão como padrão
 definir_versao() {
-    [ -z "$1" ] && echo "erro: versão não informada!" && return 1
+    [ -z "$1" ] && echo "erro: versão não informada!" && exit 1
 
     local versao="$1"
     local alvo="$DIR_NODE/$versao"
@@ -149,7 +148,7 @@ definir_versao() {
     if [ ! -d "$alvo" ]; then
         echo "Versão $versao não encontrada!"
         echo "Use 'gerenciador-node listar' para ver as disponíveis"
-        return 1
+        exit 1
     fi
 
     # Atualiza link simbólico
@@ -164,7 +163,7 @@ definir_versao() {
 
 # Remove versão do NodeJS instalada anteriormente
 remover_versao() {
-    [ -z "$1" ] && echo "erro: versão não informada!" && return 1
+    [ -z "$1" ] && echo "erro: versão não informada!" && exit 1
 
     local versao="$1"
     local alvo="$DIR_NODE/$versao"
@@ -179,13 +178,13 @@ remover_versao() {
     # validações
     if [ ! -d "$alvo" ]; then
         echo "Versão $versao não encontrada!"
-        return 1
+        exit 1
     fi
 
     if [ "$versao" = "$versao_atual" ]; then
         echo "Não é possível remover a versão em uso!"
         echo "Mude para outra versão antes de remover"
-        return 1
+        exit 1
     fi
 
     # Confirmação interativa para remoção segura
@@ -240,15 +239,15 @@ listar_versoes() {
 }
 
 # Controle principal de execução
-case "${1:-}" in
+case "$1" in
     "instalar")
-        instalar_node "${2:-}"
+        instalar_node "$2"
         ;;
     "definir")
-        definir_versao "${2:-}"
+        definir_versao "$2"
         ;;
     "remover")
-        remover_versao "${2:-}"
+        remover_versao "$2"
         ;;
     "listar")
         listar_versoes
@@ -262,6 +261,6 @@ case "${1:-}" in
     *)
         echo "Comando inválido!"
         mostrar_ajuda
-        return 1
+        exit 1
         ;;
 esac
