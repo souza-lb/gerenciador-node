@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Autor: Leonardo Bruno
 # Versão: 2.0
@@ -239,15 +240,15 @@ listar_versoes() {
 }
 
 # Controle principal de execução
-case "$1" in
+case "${1:-}" in
     "instalar")
-        instalar_node "$2"
+        instalar_node "${2:-}"
         ;;
     "definir")
-        definir_versao "$2"
+        definir_versao "${2:-}"
         ;;
     "remover")
-        remover_versao "$2"
+        remover_versao "${2:-}"
         ;;
     "listar")
         listar_versoes
