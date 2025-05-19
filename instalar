@@ -11,8 +11,8 @@ TEMP_DIR=$(mktemp -d)
 NOME_ARQUIVO="gerenciador-node"
 URL_DOWNLOAD="https://raw.githubusercontent.com/souza-lb/gerenciador-node/main/gerenciador-node"
 
-# Verifica se o download foi bem sucedido
-if ! wget -q "$URL_DOWNLOAD" -O "$TEMP_DIR/$NOME_ARQUIVO"; then
+echo "Executando download..."
+if ! wget --no-verbose --show-progress "$URL_DOWNLOAD" -O "$TEMP_DIR/$NOME_ARQUIVO"; then
     echo "Erro ao baixar o arquivo!"
     rm -rf "$TEMP_DIR"
     exit 1
@@ -30,6 +30,8 @@ if ! grep -q "# CONFIG_GERENCIADOR_AUTO" "$HOME/.bashrc"; then
     } >> "$HOME/.bashrc"
 fi
 
+echo "Executando limpeza..."
 rm -rf "$TEMP_DIR"
+
 echo "Instalação concluída!"
 echo "Execute: source ~/.bashrc"
