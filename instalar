@@ -47,7 +47,7 @@ check_dependencies() {
     if [ ${#missing[@]} -gt 0 ]; then
         echo -e "${RED}Erro: Dependências necessárias não encontradas:${NC}"
         printf ' - %s\n' "${missing[@]}"
-        exit 1
+        return 1
     fi
 }
 
@@ -58,7 +58,7 @@ check_existing_installation() {
         read -p "Deseja sobrescrever? [s/N]: " resposta < /dev/tty
         if [[ ! "$resposta" =~ ^[Ss]$ ]]; then
             echo -e "${RED}Instalação cancelada pelo usuário.${NC}"
-            exit 0
+            return 0
         fi
     fi
 }
@@ -84,7 +84,7 @@ download_file() {
         echo -e "${GREEN}Download concluído com sucesso!${NC}"
     else
         echo -e "${RED}Falha no download. Verifique a conexão ou URL.${NC}"
-        exit 1
+        return 1
     fi
 }
 
@@ -96,13 +96,13 @@ install_file() {
     echo -e "Aplicando permissões executáveis..."
     if ! chmod +x "${TEMP_DIR}/${NOME_ARQUIVO}"; then
         echo -e "${RED}Erro ao definir permissões executáveis!${NC}"
-        exit 1
+        return 1
     fi
     
     echo -e "Movendo para diretório de instalação..."
     if ! mv -f "${TEMP_DIR}/${NOME_ARQUIVO}" "${INSTALL_DIR}/"; then
         echo -e "${RED}Erro ao copiar o arquivo!${NC}"
-        exit 1
+        return 1
     fi
 }
 
